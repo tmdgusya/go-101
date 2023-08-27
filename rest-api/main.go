@@ -1,17 +1,16 @@
-package restapi
+package main
 
 import (
 	"net/http"
-
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"restapi/hello"
+	"restapi/router"
 )
 
 func main() {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
-	})
-	http.ListenAndServe(":3000", r)
+	r := router.GetRoute()
+	hello.SetUpHelloRouter()
+	err := http.ListenAndServe(":3000", r)
+	if err != nil {
+		return
+	}
 }
